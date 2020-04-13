@@ -15,10 +15,19 @@ docker-compose build
 ```
 
 ## Usage
-
+docker-compose upでコンテナを作成したあと、、、
 ```sh
 docker-compose up
 ```
+execでコンテナを実行
+```sh
+docker-compose exec practice /bin/bash
+```
+あとはsrcのファイルを
+```sh
+python test.py
+```
+のように実行するだけ！！
 
 ## Author
 
