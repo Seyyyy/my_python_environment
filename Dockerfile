@@ -7,6 +7,6 @@ WORKDIR /app
 RUN pip install numpy opencv-python
 
 # install native opencv
-RUN apt-get update
-RUN apt-get install build-essential
-RUN apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+RUN apt-get -y update
+RUN apt-get -y install build-essential
+RUN apt-get -y install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
