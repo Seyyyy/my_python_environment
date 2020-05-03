@@ -14,7 +14,7 @@ def imgNdarray2ColorNdarray(imgNdarray):
 def getNuanceColor(baseColor, colorArray):
     nuance = []
     stack = 100
-    baseColorSum = baseColor.max() + baseColor.min()
+    baseColorSum = int(baseColor.max()) + int(baseColor.min())
     compColor = [
         baseColorSum - baseColor[0], 
         baseColorSum - baseColor[1],
