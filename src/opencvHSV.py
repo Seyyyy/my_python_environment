@@ -16,9 +16,33 @@ def imgNdarray2ColorNdarray(imgNdarray):
 # hsvだと色数が多すぎるので扱いやすくするために抽象化をする
 def abstraction(imgNdarray):
     img_array = []
-    abstParam = [15, 21.33, 21.33]
+    abstParam = [15, 18.2, 18.2]
     img_array = np.floor(imgNdarray / abstParam)
     img_array = img_array.astype(np.int64)
+    return img_array
+
+
+def hueAbs(hueNdarray):
+    img_array = []
+    for value in hueNdarray:
+        if not ((value[1] < 5 and value[2] < 5) and (value[1] > 250 and value[2] > 250)):
+            img_array.append(value[0])
+    return img_array
+
+
+def satuAbs(satuNdarray):
+    img_array = []
+    for value in satuNdarray:
+        if not (value[2] < 5 and value[2] > 250):
+            img_array.append(value[1])
+    return img_array
+
+
+def valueAbs(valueNdarray):
+    img_array = []
+    for value in valueNdarray:
+        if not (value[1] < 5 and value[1] > 250):
+            img_array.append(value[2])
     return img_array
 
 # とっても重い処理(約３秒くらい)uniqueが重たいたぶん
@@ -60,7 +84,9 @@ def mainFunction(imageFileName):
     img_array = imgNdarray2ColorNdarray(img)
     img_array = abstraction(img_array)
     # Hue, Saturation, Valueをまとめた２次元配列
-    uniqueColorArray = img_array.T
+    # uniqueColorArray = img_array.T
+    uniqueColorArray = [hueAbs(img_array), satuAbs(img_array), valueAbs(img_array)]
+    print(uniqueColorArray)
     hsvColorKind = getColorFeature(uniqueColorArray)
     # エントロピー用の配列を作る
     hueEntropy = getEntropy(hsvColorKind[0])
@@ -71,25 +97,25 @@ def mainFunction(imageFileName):
     csvArray = np.append(hsvColorKind[0], hsvColorKind[1])
     csvArray = np.append(csvArray, hsvColorKind[2])
     csvArray = np.append(csvArray, entropy)
-    with open('../data/color.csv', 'a') as f:
-        writer = csv.writer(f)
-        writer.writerow(csvArray)
+    # with open('../data/color.csv', 'a') as f:
+    #     writer = csv.writer(f)
+    #     writer.writerow(csvArray)
 
 # 最初の一回だけheaderを記入
-with open('../data/color.csv', 'w') as f:
-    fieldNames = [
-        'h0', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10', 'h11',
-        's0', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11',
-        'v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8',  'v9', 'v10', 'v11', 
-        'hue entropy', 'saturation entropy', 'value entropy'
-    ]
-    writer = csv.DictWriter(f, fieldnames=fieldNames)
-    writer.writeheader()
+# with open('../data/color.csv', 'w') as f:
+#     fieldNames = [
+#         'h0', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8', 'h9', 'h10', 'h11',
+#         's0', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11',
+#         'v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8',  'v9', 'v10', 'v11', 
+#         'hue entropy', 'saturation entropy', 'value entropy'
+#     ]
+#     writer = csv.DictWriter(f, fieldnames=fieldNames)
+#     writer.writeheader()
 
-images = glob.glob('../sampledata/*')
-for path in images:
-    mainFunction(path)
+# images = glob.glob('../sampledata/*')
+# for path in images:
+#     mainFunction(path)
 
-# mainFunction('../images/virtual.jpg')
+mainFunction('../images/kyoryu.png')
 
 # print(cv2.cvtColor(np.array([[colorArray[indexMaxcount]]]), cv2.COLOR_HSV2RGB)[0][0])

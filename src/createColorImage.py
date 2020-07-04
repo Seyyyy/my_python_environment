@@ -4,7 +4,7 @@ import cv2
 img = np.zeros((480,120,3), np.uint8)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-# hue * 21.33
+# hue * 15
 img[0:40, 0:40] = [0,255,255] #0
 img[40:80, 0:40] = [15,255,255] #1
 img[80:120, 0:40] = [30,255,255] #2

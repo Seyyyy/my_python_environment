@@ -1,8 +1,8 @@
 import numpy as np
-import cv2 as cv
+# import cv2 as cv
 
 print(np.__version__)
-print(cv.__version__)
+# print(cv.__version__)
 print('hello world')
 
 array1 = np.array([4, 5, 20])
